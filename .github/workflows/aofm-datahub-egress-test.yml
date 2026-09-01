@@ -2,6 +2,9 @@ name: AOFM Data Hub Egress Test
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - test/aofm-datahub-egress-20260901
 
 jobs:
   test-aofm:
