@@ -1,0 +1,34 @@
+name: AOFM Data Hub Egress Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-aofm:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests openpyxl
+
+      - name: Run AOFM test
+        run: |
+          python tools/aofm_fetch_test.py
+
+      - name: Upload diagnostic output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aofm-test-output
+          path: aofm_test_output/
+          if-no-files-found: ignore
